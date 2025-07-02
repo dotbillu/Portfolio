@@ -235,6 +235,8 @@
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            opacity: 0; /* Initially hidden, will be shown by JavaScript */
+            min-height: 4rem; /* Prevent layout shift */
         }
 
         .hero-subtitle {
@@ -895,8 +897,7 @@
                 <h1 class="hero-title">Abhay Kumar Jha</h1>
                 <div class="hero-subtitle">Full Stack Developer & Software Engineer</div>
                 <p class="hero-description">
-                    Passionate B.Tech student crafting innovative web solutions with the <span class="code-font" style="color: var(--primary);">MERN</span> stack. 
-                    I transform ideas into digital experiences through clean code, modern design, and user-centric development.
+                    I design and build web experiences that are fast, clean, and built to last.
                 </p>
             </div>
             <div class="hero-visual">
@@ -1225,6 +1226,7 @@
         function typeWriter(element, text, speed = 100) {
             let i = 0;
             element.innerHTML = '';
+            element.style.opacity = '1'; // Ensure it's visible
             
             function type() {
                 if (i < text.length) {
@@ -1234,16 +1236,16 @@
                 }
             }
             
-            setTimeout(type, 2000);
+            type(); // Start immediately, no delay
         }
 
-        // Initialize typing effect
-        window.addEventListener('load', function() {
-            setTimeout(() => {
-                const title = document.querySelector('.hero-title');
-                const originalText = title.textContent;
-                typeWriter(title, originalText, 80);
-            }, 2000);
+        // Initialize typing effect - start immediately when page loads
+        window.addEventListener('DOMContentLoaded', function() {
+            const title = document.querySelector('.hero-title');
+            const originalText = title.textContent;
+            title.innerHTML = ''; // Clear the title immediately
+            title.style.opacity = '1'; // Make sure it's visible
+            typeWriter(title, originalText, 80);
         });
 
         // Link card click animations

@@ -683,6 +683,10 @@
                         card.classList.add('visible');
                     }, index * 100);
                 });
+                // Apply 3D tilt effect after all animations
+                setTimeout(() => {
+                    add3DTiltEffect();
+                }, 500);
             }, 100);
         }
 
@@ -835,6 +839,25 @@
             }
         `;
         document.head.appendChild(style);
+
+        // 3D Tilt Effect for Project Cards
+        function add3DTiltEffect() {
+            document.querySelectorAll(".project-card").forEach(card => {
+                card.addEventListener("mousemove", function(e) {
+                    const rect = this.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = (y - centerY) / 60; // even less sensitive
+                    const rotateY = (centerX - x) / 60; // even less sensitive
+                    this.style.transform = `translateY(-10px) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                });
+                card.addEventListener("mouseleave", function() {
+                    this.style.transform = "translateY(0) perspective(1000px) rotateX(0deg)";
+                });
+            });
+        }
     </script>
 </body>
 </html>
